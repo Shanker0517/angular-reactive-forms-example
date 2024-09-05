@@ -1,0 +1,31 @@
+.imagecontainer{
+    background: gray;
+}
+.formcontainer {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.displayform {
+    margin-left: 80px;
+    width: 500px;
+    height: 250px;
+}
+/* label{
+    padding: 10px;
+} */
+.inputholder {
+    width: 450px;
+    padding: 10px;
+    margin: 10px;
+}
+.button{
+    width: 425px;
+    height: 38px;
+    margin: 10px;
+}
+.errordiv{
+    color: red;
+}
