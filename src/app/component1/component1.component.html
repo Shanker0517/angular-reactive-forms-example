@@ -1,0 +1,45 @@
+<!-- Form Group 1 -->
+<form [formGroup]="formGroup1" (ngSubmit)="submitFormGroup1()">
+  <mat-form-field>
+    <input matInput placeholder="Field 1" formControlName="field1" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Field 2" formControlName="field2" />
+  </mat-form-field>
+  <button type="submit" mat-button>Submit Form Group 1</button>
+</form>
+
+<!-- Form Group 2 -->
+<form [formGroup]="formGroup2" (ngSubmit)="submitFormGroup2()">
+  <mat-form-field>
+    <input matInput placeholder="Field 3" formControlName="field3" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Field 4" formControlName="field4" />
+  </mat-form-field>
+  <button type="submit" mat-button>Submit Form Group 2</button>
+</form>
+
+<!-- Form Group 3 -->
+<form [formGroup]="formGroup3" (ngSubmit)="submitFormGroup3()">
+  <mat-form-field>
+    <input matInput placeholder="Field 5" formControlName="field5" />
+  </mat-form-field>
+  <button type="submit" mat-button>Submit Form Group 3</button>
+</form>
+
+<!-- Form Array -->
+<form [formGroup]="parentForm">
+  <div formArrayName="formArray">
+    <div
+      *ngFor="let group of formArray.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <mat-form-field>
+        <input matInput placeholder="Sub Field" formControlName="subField1" />
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<button mat-button (click)="addFormArrayGroup()">Add More</button>
+<button mat-button (click)="submitFormArray()">Submit Form Array</button>

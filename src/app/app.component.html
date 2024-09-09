@@ -69,5 +69,38 @@
     </div>
   </div>
 </div> -->
-
-<!-- <div>hello</div> -->
+<mat-stepper #stepper linear="true">
+  <mat-step label="Step 1">
+    <app-component1
+      (formGroup1Submit)="onFormGroup1Submit($event)"
+      (formGroup2Submit)="onFormGroup2Submit($event)"
+      (formGroup3Submit)="onFormGroup3Submit($event)"
+      (formArraySubmit)="onFormArraySubmit($event)"
+    >
+    </app-component1>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 2">
+    <!-- Content for step 2 -->
+    <app-component2
+      (formGroup1Submit2Step)="onFormGroup1Submit2Step($event)"
+      (formGroup2Submit2Step)="onFormGroup2Submit2Step($event)"
+      (formGroup3Submit2Step)="onFormGroup3Submit2Step($event)"
+      (formArraySubmit2Step)="onFormArraySubmit2Step($event)"
+    >
+    </app-component2>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Step 3">
+    <!-- Content for step 3 -->
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="onFinish()">Finish</button>
+    </div>
+  </mat-step>
+</mat-stepper>
