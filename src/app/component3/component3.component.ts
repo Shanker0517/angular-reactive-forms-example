@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-component3',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './component3.component.css'
 })
 export class Component3Component {
+  @Output() progressBar = new EventEmitter<number>();
 
 }

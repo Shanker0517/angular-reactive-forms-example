@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { BrowserModule } from '@angular/platform-browser';
 import { Component2Component } from './component2/component2.component';
+import { Component3Component } from './component3/component3.component';
 function customPasswordValidator(
   control: FormControl
 ): { [key: string]: boolean } | null {
@@ -26,7 +27,6 @@ function customPasswordValidator(
   }
   return null;
 }
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -37,63 +37,35 @@ function customPasswordValidator(
     ReactiveFormsModule,
     Component1Component,
     Component2Component,
+    Component3Component,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  onFinish() {
-    throw new Error('Method not implemented.');
+  currentStep: number = 1;
+  nextStepUpdate(lastStep: boolean) {
+    console.log(lastStep);
+    if (lastStep === true) {
+      this.lastStep = false;
+      this.currentStep += 1;
+    }
   }
-  // loginForm!: FormGroup;
+  previousStep(lastStep: boolean) {
+    if (lastStep === false) {
+      this.lastStep = true;
+      this.currentStep -= 1;
+      this.currentProgress = 0;
+    }
+  }
+  currentProgress: number = 0;
+  lastStep: boolean = false;
   constructor() {}
-  ngOnInit() {
-    // this.loginForm = new FormGroup({
-    //   email: new FormControl('', [Validators.required, Validators.email]),
-    //   password: new FormControl('', [
-    //     Validators.required,
-    //     Validators.minLength(7),
-    //     customPasswordValidator,
-    //   ]),
-    // });
-    // console.log(this.loginForm.get('password')?.errors);
-  }
-  onFormGroup1Submit(formData: any) {
-    console.log('Form Group 1 Data:', formData);
-    // Handle form data from form group 1
-  }
-
-  onFormGroup2Submit(formData: any) {
-    console.log('Form Group 2 Data:', formData);
-    // Handle form data from form group 2
-  }
-
-  onFormGroup3Submit(formData: any) {
-    console.log('Form Group 3 Data:', formData);
-    // Handle form data from form group 3
-  }
-
-  onFormArraySubmit(formData: any) {
-    console.log('Form Array Data:', formData);
-    // Handle form data from form array
-  }
-  onFormGroup1Submit2Step(formData: any) {
-    console.log('Form Group 1 Data:', formData);
-    // Handle form data from form group 1
-  }
-
-  onFormGroup2Submit2Step(formData: any) {
-    console.log('Form Group 2 Data:', formData);
-    // Handle form data from form group 2
-  }
-
-  onFormGroup3Submit2Step(formData: any) {
-    console.log('Form Group 3 Data:', formData);
-    // Handle form data from form group 3
-  }
-
-  onFormArraySubmit2Step(formData: any) {
-    console.log('Form Array Data:', formData);
-    // Handle form data from form array
+  updateProgress(currentProgress: number) {
+    if (currentProgress === -1) {
+      this.currentProgress = this.currentProgress - currentProgress;
+    } else {
+      this.currentProgress = this.currentProgress + currentProgress;
+    }
   }
 }

@@ -1,5 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  ReactiveFormsModule,
+  FormControl,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,81 +20,111 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './component1.component.html',
   styleUrls: ['./component1.component.css'],
 })
-export class Component1Component {
-  @Output() formGroup1Submit = new EventEmitter<any>();
-  @Output() formGroup2Submit = new EventEmitter<any>();
-  @Output() formGroup3Submit = new EventEmitter<any>();
-  @Output() formArraySubmit = new EventEmitter<any>();
-
-  formGroup1: FormGroup;
-  formGroup2: FormGroup;
+export class Component1Component implements OnInit {
+  formGroup = {
+    formGroup1Value: false,
+    formGroup2Value: false,
+    formGroup3Value: false,
+    formGroup4Value: false,
+  };
+  organisation: FormGroup;
   formGroup3: FormGroup;
-  formArray: FormArray;
-  parentForm: FormGroup;
-
+  targetOpen: boolean = true;
+  organObj: FormGroup;
+  @Input() currentStep: number = 1;
+  @Output() progressBar = new EventEmitter<number>();
+  @Output() lastStep = new EventEmitter<boolean>();
   constructor(private fb: FormBuilder) {
-    this.formGroup1 = this.fb.group({
-      field1: ['', Validators.required],
-      field2: ['', Validators.required],
+    this.organisation = this.fb.group({
+      name: ['', Validators.required],
+      sector: ['', Validators.required],
+      scale: ['', Validators.required],
+      functionalIndicator: ['', Validators.required],
     });
 
-    this.formGroup2 = this.fb.group({
-      field3: ['', Validators.required],
-      field4: ['', Validators.required],
+    this.formGroup3 = fb.group({
+      baselineYear: new FormControl('', Validators.required),
+      target1: this.fb.group({
+        targetYear: new FormControl('', Validators.required),
+        targetType: new FormControl('', Validators.required),
+        targetReduction: new FormControl('', Validators.required),
+      }),
+      target2: this.fb.group({
+        targetYear: new FormControl('', Validators.required),
+        targetType: new FormControl('', Validators.required),
+        targetReduction: new FormControl('', Validators.required),
+      }),
+      netZeroTarget: this.fb.group({
+        targetYear: new FormControl('', Validators.required),
+      }),
     });
 
-    this.formGroup3 = this.fb.group({
-      field5: ['', Validators.required],
-    });
-
-    // Initialize the parent form group
-    this.parentForm = this.fb.group({
-      formArray: this.fb.array([
-        this.fb.group({
-          subField1: ['', Validators.required],
-        }),
+    this.organObj = this.fb.group({
+      organisationalStructure: this.fb.array([
+        this.createOrganStructureGroup(),
       ]),
     });
-
-    // Access the formArray from the parent form group
-    this.formArray = this.parentForm.get('formArray') as FormArray;
+    // this.emitProgress();
   }
 
-  addFormArrayGroup() {
-    if (this.formArray) {
-      const newGroup = this.fb.group({
-        subField1: ['', Validators.required],
-      });
-      this.formArray.push(newGroup);
-    }
+  createOrganStructureGroup(): FormGroup {
+    return this.fb.group({
+      facility: ['', Validators.required],
+      region: ['', Validators.required],
+      country: ['', Validators.required],
+      state: ['', Validators.required],
+    });
   }
 
-  submitFormGroup1() {
-    if (this.formGroup1.valid) {
-      this.formGroup1Submit.emit(this.formGroup1.value);
-    }
+  get organisationalStructureList(): FormArray {
+    return this.organObj.get('organisationalStructure') as FormArray;
   }
 
-  submitFormGroup2() {
-    if (this.formGroup2.valid) {
-      this.formGroup2Submit.emit(this.formGroup2.value);
-    }
+  // Add a new organisational structure group
+  addingOrganObj() {
+    this.organisationalStructureList.push(this.createOrganStructureGroup());
   }
 
-  submitFormGroup3() {
-    if (this.formGroup3.valid) {
-      this.formGroup3Submit.emit(this.formGroup3.value);
+  removeOrganObj(index: number) {
+    this.organisationalStructureList.removeAt(index);
+  }
+  ngOnInit(): void {}
+
+  submitOrganisationForm() {
+    if (this.organisation.valid) {
+      this.formGroup.formGroup1Value = true;
+      this.formGroup.formGroup2Value = true;
+      console.log(this.organisation.value);
+      this.emitProgress(10);
     }
   }
 
   submitFormArray() {
-    if (this.formArray.valid) {
-      this.formArraySubmit.emit(this.formArray.value);
+    if (this.organObj.valid) {
+      console.log(this.organisationalStructureList.value);
+      this.formGroup.formGroup1Value = true;
+      this.formGroup.formGroup2Value = false;
+      this.formGroup.formGroup3Value = true;
+      this.emitProgress(10);
     }
+  }
+
+  targetChange(event: any) {
+    this.targetOpen = event.target.value === 'true';
+  }
+
+  submitFormGroup3() {
+    console.log(this.formGroup3.value);
+    this.emitProgress(10);
+    this.lastStep.emit(true);
+  }
+
+  emitProgress(val: number) {
+    this.progressBar.emit(val);
   }
 }

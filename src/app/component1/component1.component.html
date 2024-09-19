@@ -1,5 +1,5 @@
 <!-- Form Group 1 -->
-<form [formGroup]="formGroup1" (ngSubmit)="submitFormGroup1()">
+<!-- <form [formGroup]="formGroup1" (ngSubmit)="submitFormGroup1()">
   <mat-form-field>
     <input matInput placeholder="Field 1" formControlName="field1" />
   </mat-form-field>
@@ -7,10 +7,10 @@
     <input matInput placeholder="Field 2" formControlName="field2" />
   </mat-form-field>
   <button type="submit" mat-button>Submit Form Group 1</button>
-</form>
+</form> -->
 
 <!-- Form Group 2 -->
-<form [formGroup]="formGroup2" (ngSubmit)="submitFormGroup2()">
+<!-- <form [formGroup]="formGroup2" (ngSubmit)="submitFormGroup2()">
   <mat-form-field>
     <input matInput placeholder="Field 3" formControlName="field3" />
   </mat-form-field>
@@ -18,18 +18,18 @@
     <input matInput placeholder="Field 4" formControlName="field4" />
   </mat-form-field>
   <button type="submit" mat-button>Submit Form Group 2</button>
-</form>
+</form> -->
 
 <!-- Form Group 3 -->
-<form [formGroup]="formGroup3" (ngSubmit)="submitFormGroup3()">
+<!-- <form [formGroup]="formGroup3" (ngSubmit)="submitFormGroup3()">
   <mat-form-field>
     <input matInput placeholder="Field 5" formControlName="field5" />
   </mat-form-field>
   <button type="submit" mat-button>Submit Form Group 3</button>
-</form>
+</form> -->
 
 <!-- Form Array -->
-<form [formGroup]="parentForm">
+<!-- <form [formGroup]="parentForm">
   <div formArrayName="formArray">
     <div
       *ngFor="let group of formArray.controls; let i = index"
@@ -42,4 +42,172 @@
   </div>
 </form>
 <button mat-button (click)="addFormArrayGroup()">Add More</button>
-<button mat-button (click)="submitFormArray()">Submit Form Array</button>
+<button mat-button (click)="submitFormArray()">Submit Form Array</button> -->
+<div *ngIf="!formGroup.formGroup1Value">
+  <h3>Organisation</h3>
+  <form [formGroup]="organisation" (ngSubmit)="submitOrganisationForm()">
+    <div>
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+    </div>
+    <div>
+      <label for="sector">Sector</label>
+      <input id="sector" type="text" formControlName="sector" />
+    </div>
+    <div>
+      <label for="scale">Scale</label>
+      <input id="scale" type="text" formControlName="scale" />
+    </div>
+    <div>
+      <label for="functionalIndicator">Functional Indicator</label>
+      <input
+        id="functionalIndicator"
+        type="text"
+        formControlName="functionalIndicator"
+      />
+    </div>
+    <button class="btn btn-secondary btn-sm" type="submit">Next</button>
+  </form>
+</div>
+<div *ngIf="formGroup.formGroup2Value">
+  <h3>Organisational Structure</h3>
+  <form [formGroup]="organObj" (ngSubmit)="submitFormArray()">
+    <div formArrayName="organisationalStructure">
+      <div
+        *ngFor="
+          let organControl of organisationalStructureList.controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <div>
+          <label for="facility-{{ i }}">Business unit/Facility</label>
+          <input id="facility-{{ i }}" type="text" formControlName="facility" />
+        </div>
+        <div>
+          <label for="region-{{ i }}">Region</label>
+          <input id="region-{{ i }}" type="text" formControlName="region" />
+        </div>
+        <div>
+          <label for="country-{{ i }}">Country</label>
+          <input id="country-{{ i }}" type="text" formControlName="country" />
+        </div>
+        <div>
+          <label for="state-{{ i }}">State</label>
+          <input id="state-{{ i }}" type="text" formControlName="state" />
+        </div>
+        <button type="button" (click)="removeOrganObj(i)">Remove</button>
+      </div>
+    </div>
+    <button
+      class="btn btn-secondary btn-sm"
+      type="button"
+      (click)="addingOrganObj()"
+    >
+      Add More
+    </button>
+    <button class="btn btn-secondary btn-sm" type="submit">Next</button>
+  </form>
+</div>
+<!-- form3 -->
+<div *ngIf="formGroup.formGroup3Value">
+  <h3>Decarbonisation Planning Context</h3>
+
+  <!-- Form for Baseline Year and Target Details -->
+  <form [formGroup]="formGroup3" (ngSubmit)="submitFormGroup3()">
+    <div>
+      <label>Baseline year</label>
+      <input
+        type="number"
+        min="1900"
+        max="2099"
+        step="1"
+        formControlName="baselineYear"
+      />
+    </div>
+
+    <!-- Radio Buttons for Existing Target -->
+    <div>
+      <label>Do you have an existing target?</label>
+      <div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="targetExistence"
+            [value]="false"
+            [checked]="!targetOpen"
+            (change)="targetChange($event)"
+          />
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="targetExistence"
+            [value]="true"
+            [checked]="targetOpen"
+            (change)="targetChange($event)"
+          />
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conditionally render the target forms -->
+    <div *ngIf="!targetOpen">
+      <div formGroupName="target1">
+        <div class="form-group">
+          <label for="targetYear1">Target Year</label>
+          <input id="targetYear1" type="text" formControlName="targetYear" />
+        </div>
+        <div class="form-group">
+          <label for="targetType1">Target Type</label>
+          <input id="targetType1" type="text" formControlName="targetType" />
+        </div>
+        <div class="form-group">
+          <label for="targetReduction1">Target Reduction</label>
+          <input
+            id="targetReduction1"
+            type="text"
+            formControlName="targetReduction"
+          />
+        </div>
+      </div>
+
+      <div formGroupName="target2">
+        <div class="form-group">
+          <label for="targetYear2">Target Year</label>
+          <input id="targetYear2" type="text" formControlName="targetYear" />
+        </div>
+        <div class="form-group">
+          <label for="targetType2">Target Type</label>
+          <input id="targetType2" type="text" formControlName="targetType" />
+        </div>
+        <div class="form-group">
+          <label for="targetReduction2">Target Reduction</label>
+          <input
+            id="targetReduction2"
+            type="text"
+            formControlName="targetReduction"
+          />
+        </div>
+      </div>
+
+      <div formGroupName="netZeroTarget">
+        <div class="form-group">
+          <label for="netZeroTargetYear">Net Zero Target Year</label>
+          <input
+            id="netZeroTargetYear"
+            type="text"
+            formControlName="targetYear"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+  </form>
+</div>

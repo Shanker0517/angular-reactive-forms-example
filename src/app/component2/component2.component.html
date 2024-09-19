@@ -1,5 +1,5 @@
 <!-- Form Group 1 -->
-<form [formGroup]="formGroup1" (ngSubmit)="submitFormGroup1()">
+<!-- <form [formGroup]="formGroup1" (ngSubmit)="submitFormGroup1()">
   <mat-form-field>
     <input matInput placeholder="Field 1" formControlName="field1" />
   </mat-form-field>
@@ -7,10 +7,10 @@
     <input matInput placeholder="Field 2" formControlName="field2" />
   </mat-form-field>
   <button type="submit" mat-button>Submit Form Group 1</button>
-</form>
+</form> -->
 
 <!-- Form Group 2 -->
-<form [formGroup]="formGroup2" (ngSubmit)="submitFormGroup2()">
+<!-- <form [formGroup]="formGroup2" (ngSubmit)="submitFormGroup2()">
   <mat-form-field>
     <input matInput placeholder="Field 3" formControlName="field3" />
   </mat-form-field>
@@ -18,25 +18,29 @@
     <input matInput placeholder="Field 4" formControlName="field4" />
   </mat-form-field>
   <button type="submit" mat-button>Submit Form Group 2</button>
-</form>
+</form> -->
 
 <!-- Form Group 3 -->
-<form [formGroup]="formGroup3" (ngSubmit)="submitFormGroup3()">
+<!-- <form [formGroup]="formGroup3" (ngSubmit)="submitFormGroup3()">
   <mat-form-field>
     <input matInput placeholder="Field 5" formControlName="field5" />
   </mat-form-field>
   <button type="submit" mat-button>Submit Form Group 3</button>
-</form>
+</form> -->
 
 <!-- Form Array -->
-<form [formGroup]="parentForm">
+<button mat-button (click)="addFormArrayGroup()">Add More</button>
+<form [formGroup]="parentForm" (ngSubmit)="submitFormArray()">
   <div formArrayName="formArray">
-    <div *ngFor="let group of formArray.controls; let i = index" [formGroupName]="i">
+    <div
+      *ngFor="let group of formArray.controls; let i = index"
+      [formGroupName]="i"
+    >
       <mat-form-field>
         <input matInput placeholder="Sub Field" formControlName="subField1" />
       </mat-form-field>
     </div>
   </div>
+  <button (click)="previousStep()">Previous</button>
+  <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
 </form>
-<button mat-button (click)="addFormArrayGroup()">Add More</button>
-<button mat-button (click)="submitFormArray()">Submit Form Array</button>

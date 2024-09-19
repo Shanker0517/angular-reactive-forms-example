@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormGroup,
   FormArray,
@@ -29,6 +29,10 @@ export class Component2Component {
   @Output() formGroup2Submit2Step = new EventEmitter<any>();
   @Output() formGroup3Submit2Step = new EventEmitter<any>();
   @Output() formArraySubmit2Step = new EventEmitter<any>();
+
+  @Output() progressBar = new EventEmitter<number>();
+  @Output() lastStep = new EventEmitter<boolean>();
+  @Input() currentStep: number = 2;
 
   formGroup1: FormGroup;
   formGroup2: FormGroup;
@@ -75,25 +79,35 @@ export class Component2Component {
 
   submitFormGroup1() {
     if (this.formGroup1.valid) {
-      this.formGroup1Submit2Step.emit(this.formGroup1.value);
+      this.emitProgress(10);
     }
   }
 
   submitFormGroup2() {
     if (this.formGroup2.valid) {
-      this.formGroup2Submit2Step.emit(this.formGroup2.value);
+      this.emitProgress(10);
     }
   }
 
   submitFormGroup3() {
     if (this.formGroup3.valid) {
-      this.formGroup3Submit2Step.emit(this.formGroup3.value);
+      this.emitProgress(10);
+      this.lastStep.emit(true);
     }
   }
 
   submitFormArray() {
     if (this.formArray.valid) {
-      this.formArraySubmit2Step.emit(this.formArray.value);
+      console.log(this.formArray.value);
+      const val = this.currentStep + 1;
+      this.emitProgress(35);
+      this.lastStep.emit(true);
     }
+  }
+  previousStep() {
+    this.lastStep.emit(false);
+  }
+  emitProgress(val: number) {
+    this.progressBar.emit(val);
   }
 }

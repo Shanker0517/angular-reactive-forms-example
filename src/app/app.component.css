@@ -1,31 +1,67 @@
-.imagecontainer{
-    background: gray;
+.imagecontainer {
+  background: gray;
 }
 .formcontainer {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .displayform {
-    margin-left: 80px;
-    width: 500px;
-    height: 250px;
+  margin-left: 80px;
+  width: 500px;
+  height: 250px;
 }
 /* label{
     padding: 10px;
 } */
 .inputholder {
-    width: 450px;
-    padding: 10px;
-    margin: 10px;
+  width: 450px;
+  padding: 10px;
+  margin: 10px;
 }
-.button{
-    width: 425px;
-    height: 38px;
-    margin: 10px;
+.button {
+  width: 425px;
+  height: 38px;
+  margin: 10px;
 }
-.errordiv{
-    color: red;
+.errordiv {
+  color: red;
+}
+
+.progress {
+  margin-top: 10px;
+  background-color: lightgrey; /* Background for the progress bar track */
+  height: 4px; /* Set the height to 5px */
+}
+
+.progress-bar {
+  height: 100%; /* Ensure the progress bar fills the height */
+  transition: background-color 0.3s ease; /* Smooth transition for the color change */
+}
+.name-holder {
+  margin-top: 5px;
+  /* padding-top: 5px; */
+  display: flex;
+  gap: 10px; /* Add some spacing between spans */
+  justify-content: space-between;
+}
+
+.name-holder span {
+  position: relative;
+  padding-left: 20px; /* Space for the circle */
+  font-size: large;
+}
+
+.name-holder span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  border: 2px dotted grey; /* Dotted circle */
+  border-radius: 50%;
 }

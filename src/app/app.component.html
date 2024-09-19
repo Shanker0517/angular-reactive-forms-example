@@ -69,38 +69,109 @@
     </div>
   </div>
 </div> -->
-<mat-stepper #stepper linear="true">
-  <mat-step label="Step 1">
-    <app-component1
-      (formGroup1Submit)="onFormGroup1Submit($event)"
-      (formGroup2Submit)="onFormGroup2Submit($event)"
-      (formGroup3Submit)="onFormGroup3Submit($event)"
-      (formArraySubmit)="onFormArraySubmit($event)"
-    >
-    </app-component1>
+<!-- <mat-stepper linear="true"> -->
+<!-- <mat-step label="Step 1">
+
     <div>
       <button mat-button matStepperNext>Next</button>
     </div>
-  </mat-step>
-  <mat-step label="Step 2">
-    <!-- Content for step 2 -->
-    <app-component2
-      (formGroup1Submit2Step)="onFormGroup1Submit2Step($event)"
-      (formGroup2Submit2Step)="onFormGroup2Submit2Step($event)"
-      (formGroup3Submit2Step)="onFormGroup3Submit2Step($event)"
-      (formArraySubmit2Step)="onFormArraySubmit2Step($event)"
+  </mat-step> -->
+<!-- Content for step 2 -->
+<!-- <mat-step label="Step 2">
+<app-component2
+
     >
     </app-component2>
-    <div>
+<div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
     </div>
-  </mat-step>
-  <mat-step label="Step 3">
-    <!-- Content for step 3 -->
-    <div>
+</mat-step> -->
+<!-- <mat-step label="Step 3"> -->
+<!-- Content for step 3 -->
+<!-- <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="onFinish()">Finish</button>
     </div>
   </mat-step>
-</mat-stepper>
+ </mat-stepper> -->
+<!-- <div>
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Example 1px high"
+    aria-valuenow="25"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div
+      class="progress-bar"
+      [ngStyle]="{
+        'width.%': currentProgress,
+        'background-color': currentProgress > 0 ? 'blue' : 'grey'
+      }"
+    ></div>
+  </div>
+  <div class="name-holder">
+    <span>Baseline data input</span>
+    <span>Emissions inventory</span>
+    <span>Baseline assumptions</span>
+    <span>Fourth step</span>
+  </div>
+</div>
+<app-component1 (progressBar)="updateProgress($event)"></app-component1> -->
+
+<div>
+  <!-- Progress bar -->
+  <div
+    class="progress"
+    role="progressbar"
+    aria-label="Progress bar"
+    aria-valuenow="25"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div
+      class="progress-bar"
+      [ngStyle]="{
+        'width.%': currentProgress,
+        'background-color': currentProgress > 0 ? 'blue' : 'grey'
+      }"
+    ></div>
+  </div>
+
+  <!-- Step Labels -->
+  <div class="name-holder">
+    <span [ngStyle]="{ color: currentProgress >= 25 ? 'blue' : 'grey' }"
+      >Baseline data input</span
+    >
+    <span [ngStyle]="{ color: currentProgress >= 50 ? 'blue' : 'grey' }"
+      >Emissions inventory</span
+    >
+    <span [ngStyle]="{ color: currentProgress >= 75 ? 'blue' : 'grey' }"
+      >Baseline assumptions</span
+    >
+    <span [ngStyle]="{ color: currentProgress >= 100 ? 'blue' : 'grey' }"
+      >Fourth step</span
+    >
+  </div>
+</div>
+
+<!-- Dynamically load different components based on the current step -->
+<app-component1
+  *ngIf="currentStep === 1"
+  [currentStep]="currentStep"
+  (progressBar)="updateProgress($event)"
+  (lastStep)="nextStepUpdate($event)"
+></app-component1>
+<app-component2
+  *ngIf="currentStep === 2"
+  [currentStep]="currentStep"
+  (progressBar)="updateProgress($event)"
+  (lastStep)="nextStepUpdate($event)"
+  (lastStep)="previousStep($event)"
+></app-component2>
+<app-component3
+  *ngIf="currentStep === 3"
+  (progressBar)="updateProgress($event)"
+></app-component3>
